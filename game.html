@@ -380,7 +380,7 @@ const DATA_API="https://script.google.com/macros/s/AKfycbzQkb5vTmzCjROeJk-GEjxKz
 function pid(){let v="";try{v=localStorage.getItem("ltn-pid")||"";if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem("ltn-pid",v)}}catch(e){}return v}
 function sendPlay(){if(!DATA_API)return;let nick="";try{nick=JSON.parse(localStorage.getItem("hm-nick")||'""')||""}catch(e){}const f=(typeof fdGet==="function")?fdGet():{};
  const d={kind:"play",pid:pid(),name:nick,pre:TST.pre?(TST.pre.skip?"skip":TST.pre.s):"",preN:TST.pre?TST.pre.n:"",post:TST.post?TST.post.s:"",postN:TST.post?TST.post.n:"",view:f.view?1:0,click:f.click?1:0};
- try{fetch(DATA_API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d),keepalive:true}).catch(()=>{})}catch(e){}}
+ try{fetch(DATA_API,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(d),keepalive:true}).catch(()=>{})}catch(e){}}
 const saveT=()=>{try{localStorage.setItem("ltn-tests",JSON.stringify(TST))}catch(e){}sendPlay()};
 const TPK=[{q:"처음에는 한 달에 만 원씩 저축하는 것이 의미가 없다고 생각했다. 그런데 5년이 지나자 꽤 큰돈이 모였다. ‘(　　　)’(이)라는 말을 실감했다.",v:"Lúc đầu tôi nghĩ mỗi tháng tiết kiệm 10.000 won chẳng có ý nghĩa gì. Nhưng 5 năm sau đã gom được một khoản khá lớn.",o:["티끌 모아 태산","그림의 떡","하늘의 별 따기","우물 안 개구리"],e:"Tiết kiệm từng chút mỗi tháng, lâu dần thành khoản lớn: góp nhỏ thành lớn."},
 {q:"이사할 때 혼자 짐을 옮기려니 하루 종일 걸릴 것 같았다. 그런데 친구들이 와서 함께 도와주니 두 시간 만에 끝났다. 역시 (　　　).",v:"Chuyển nhà một mình tưởng mất cả ngày, bạn bè đến phụ thì hai tiếng là xong.",o:["백지장도 맞들면 낫다","등잔 밑이 어둡다","빈 수레가 요란하다","꿩 먹고 알 먹는다"],e:"Có người cùng làm thì việc nhẹ hẳn: đúng ý 백지장도 맞들면 낫다."},

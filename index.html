@@ -472,12 +472,12 @@ function render(L){L=L.slice().sort(function(a,b){return b.t-a.t});
  $('rsum').innerHTML='<b>'+avg.toFixed(1)+'</b><span class="s" style="color:#e8607e">'+'♥'.repeat(Math.round(avg))+'</span><span>'+L.length+' đánh giá</span>';
  $('rlist').innerHTML=L.map(function(r){var k=Math.max(1,Math.min(5,+r.stars||0));return'<div class="ri"><div class="h"><span class="rn">'+avHTML(String(r.name),(r.av==null||r.av==='')?null:+r.av,'av sm')+'<b>'+esc(r.name)+'</b></span><span class="s">'+'♥'.repeat(k)+'<span style="color:var(--line)">'+'♥'.repeat(5-k)+'</span></span></div>'+(r.text?'<p>'+esc(r.text)+'</p>':'')+'<small>'+ago(+r.t)+'</small></div>'}).join('')}
 function load(){if(!REVIEW_API){render(g(LK,[]));return}
- fetch(REVIEW_API).then(function(r){return r.json()}).then(function(d){render(Array.isArray(d)?d:[])}).catch(function(){render(g(LK,[]))})}
+ fetch(REVIEW_API,{redirect:'follow'}).then(function(r){return r.json()}).then(function(d){if(!Array.isArray(d))throw 0;var mine=g(LK,[]).filter(function(m){return Date.now()-m.t<6e5&&!d.some(function(x){return x.name===m.name&&Math.abs(x.t-m.t)<6e5})});render(d.concat(mine))}).catch(function(){render(g(LK,[]));var w=$('rsum');if(w)w.insertAdjacentHTML('beforeend','<span style="color:var(--persimmon)">· chưa tải được đánh giá chung</span>')})}
 $('rsend').onclick=function(){if(!st){$('rmsg').textContent='Bạn chọn số tim trước nhé.';return}
  var r={name:who(),av:myAv(),stars:st,text:$('rtext').value.trim().slice(0,500),t:Date.now()},b=this;b.disabled=true;$('rmsg').textContent='Đang gửi...';
  var done=function(){b.disabled=false;st=0;paint();$('rtext').value='';$('rmsg').textContent='Cảm ơn '+r.name+' đã thả tim! 💖'};
  var L=g(LK,[]);L.push(r);sv(LK,L);
  if(!REVIEW_API){done();render(L);return}
- fetch(REVIEW_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(r)}).then(function(){done();load()}).catch(function(){b.disabled=false;$('rmsg').textContent='Gửi chưa được, bạn thử lại sau nhé.'})};
-show();load()})();
+ fetch(REVIEW_API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(r)}).then(function(){done();render(g(LK,[]).concat([]));setTimeout(load,2500)}).catch(function(){b.disabled=false;$('rmsg').textContent='Gửi chưa được, bạn thử lại sau nhé.'})};
+show();load();setInterval(function(){var pg=document.querySelector('[data-pg="danh-gia"]');if(!document.hidden&&(!pg||!pg.hidden))load()},20000);addEventListener('pgshow',function(){var pg=document.querySelector('[data-pg="danh-gia"]');if(pg&&!pg.hidden)load()})})();
 </script>
