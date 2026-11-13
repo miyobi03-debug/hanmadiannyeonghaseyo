@@ -376,7 +376,7 @@ const TPOST=[{q:"백화점에서 정말 마음에 드는 코트를 봤지만, �
 const mkT=a=>a.map(t=>({q:`<p class="qp" lang="ko">${t.q}</p><button type="button" class="tlb">👀 Xem nghĩa</button><p class="qv tl">${t.v}</p><p class="qv"><b>Câu tục ngữ nào phù hợp nhất với tình huống trên?</b></p>`,o:t.o,ok:0,e:t.e,ko:1}));
 let TST={};try{TST=JSON.parse(localStorage.getItem("ltn-tests")||"{}")}catch(e){}
 // Gui so lieu thu nghiem ve Google Sheet: dan link Apps Script (.../exec) vao DATA_API
-const DATA_API="https://script.google.com/macros/s/AKfycbzQkb5vTmzCjROeJk-GEjxKzQH8VoNG_6jhnhV5Nor1HnIv98CK11_5Yo8BdJOmM1y87A/exec";
+const DATA_API="https://script.google.com/macros/s/AKfycbxWEKPiLGArA_U9U8OqdG4YW3gJVCHxDQqFlMfNE2IGWqXJXgTb7RhIhTNDiQl5jNRlNQ/exec";
 function pid(){let v="";try{v=localStorage.getItem("ltn-pid")||"";if(!v){v=Date.now().toString(36)+Math.random().toString(36).slice(2,8);localStorage.setItem("ltn-pid",v)}}catch(e){}return v}
 function sendPlay(){if(!DATA_API)return;let nick="";try{nick=JSON.parse(localStorage.getItem("hm-nick")||'""')||""}catch(e){}const f=(typeof fdGet==="function")?fdGet():{};
  const d={kind:"play",pid:pid(),name:nick,pre:TST.pre?(TST.pre.skip?"skip":TST.pre.s):"",preN:TST.pre?TST.pre.n:"",post:TST.post?TST.post.s:"",postN:TST.post?TST.post.n:"",view:f.view?1:0,click:f.click?1:0};
